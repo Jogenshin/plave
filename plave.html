@@ -1,0 +1,806 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PLAVE</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* ===== TAB MENU ===== */
+      .tab-menu {
+        text-align: center;
+        padding: 30px 0;
+        border-bottom: 1px solid #ddd;
+      }
+      .tab {
+        font-size: 20px;
+        margin: 0 25px;
+        cursor: pointer;
+        letter-spacing: 3px;
+        padding-bottom: 6px;
+      }
+      .tab.active {
+        border-bottom: 2px solid #000;
+        font-weight: 600;
+      }
+
+      /* ===== SECTION COMMON ===== */
+      .section {
+        padding: 80px 20px;
+      }
+      .inner {
+        max-width: 1000px;
+        margin: auto;
+      }
+      .section h2 {
+        font-size: 26px;
+        margin-bottom: 24px;
+        letter-spacing: 2px;
+      }
+      .section p {
+        font-size: 14px;
+        line-height: 1.9;
+        margin-bottom: 20px;
+        color: #fff;
+
+      }
+
+      /* ===== MUSIC CARD ===== */
+      .music-section {
+        background: #000;
+        color: #fff;
+        padding: 80px 20px;
+        text-align: center;
+      }
+
+      .music-title {
+        font-size: 28px;
+        margin-bottom: 40px;
+        border-bottom: 1px solid #444;
+        display: inline-block;
+        padding-bottom: 10px;
+      }
+
+      .album-slider {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+      }
+
+      .album-card img {
+        width: 260px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      .album-card img:hover {
+        transform: scale(1.05);
+      }
+
+      .arrow {
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 30px;
+        cursor: pointer;
+      }
+
+      .track-list {
+        margin-top: 30px;
+        display: none;
+      }
+
+      .track-list div {
+        margin: 10px 0;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      .track-list div:hover {
+        color: #aaa;
+      }
+      .mma-img {
+        display: block;
+        width: 500px;
+        margin: 20px auto;
+        border-radius: 12px;
+      }
+      /* ===== MEMBER ===== */
+      .members {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        margin-top: 40px;
+        flex-wrap: wrap;
+      }
+      .member {
+        border: 1px solid #000;
+        padding: 10px 18px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+      .member.active,
+      .member:hover {
+        background: #000;
+        color: #fff;
+      }
+      .member-area {
+        max-width: 1000px;
+        margin: 60px auto 0;
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+        gap: 40px;
+        padding: 0 20px;
+        align-items: center;
+      }
+      .member-area img {
+        max-width: 1000px;
+        width: 100%;
+        height: auto;
+      }
+      .member-text h3 {
+        font-size: 28px;
+        margin-bottom: 12px;
+      }
+      .member-text ul {
+        list-style: none;
+        font-size: 14px;
+        line-height: 1.9;
+      }
+
+      /* ===== FOOTER ===== */
+      footer {
+        border-top: 1px solid #ddd;
+        padding: 30px;
+        margin-top: 80px;
+        text-align: center;
+        font-size: 12px;
+      }
+
+      /* ===== RESPONSIVE ===== */
+      @media (max-width: 768px) {
+        .member-area {
+          grid-template-columns: 1fr;
+          text-align: center;
+        }
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
+
+      body {
+        background: #000;
+        color: white;
+      }
+
+      /* ===== HERO ===== */
+      .hero {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      .hero img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: blur(4px) brightness(50%);
+      }
+
+      .hero-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+      }
+
+      .hero-content h1 {
+        font-size: 70px;
+        letter-spacing: 15px;
+      }
+
+      /* ===== MENU ICON ===== */
+      .menu-icon {
+        position: absolute;
+        top: 20px;
+        right: 25px;
+        font-size: 30px;
+        cursor: pointer;
+        z-index: 10;
+      }
+
+      /* ===== SIDE MENU ===== */
+      .side-menu {
+        position: fixed;
+        top: 0;
+        right: -250px;
+        width: 250px;
+        height: 100%;
+        background: #111;
+        padding-top: 80px;
+        transition: 0.4s;
+      }
+
+      .side-menu a {
+        display: block;
+        padding: 15px 25px;
+        text-decoration: none;
+        color: white;
+        font-size: 18px;
+      }
+
+      .side-menu a:hover {
+        background: #333;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- mở web-->
+    <section class="hero">
+      <img src="plavebbuu.jpg" alt="PLAVE" />
+
+      <div class="hero-content">
+        <h1>PLAVE</h1>
+      </div>
+      <div class="scroll-down" onclick="scrollDown()">⌄</div>
+    </section>
+
+    <!-- MENU TRƯỢT -->
+    <div class="side-menu">
+      <a href="#plave">PLAVE</a>
+      <a href="#members">Members</a>
+      <a href="#music">Sản phẩm âm nhạc</a>
+      <a href="#awards">Thành tựu</a>
+      <a href="#loreSection">Lore</a>
+    </div>
+
+    <!-- ===== TAB MENU ===== -->
+    <div class="tab-menu">
+      <span class="tab active" onclick="showSection('plave', this)">PLAVE</span>
+      <span class="tab" onclick="showSection('member', this)">MEMBER</span>
+      <span class="tab" onclick="showSection('music', this)">MUSIC</span>
+      <span class="tab" onclick="showSection('achievement', this)"
+        >ACHIEVEMENT</span
+      >
+      <span class="tab" onclick="showSection('lore', this)"
+        >ASTERUM MYTHOLOGY</span
+      >
+    </div>
+
+    <!-- ===== PLAVE ===== -->
+    <section id="plaveSection">
+      <section class="section">
+        <div class="inner">
+          <h2>ABOUT PLAVE</h2>
+          <p>
+            PLAVE là nhóm nhạc thần tượng ảo gồm 5 thành viên: Yejun, Noah,
+            Bamby, Eunho và Hamin. Nhóm được ra mắt bởi VLAST, công ty sản xuất
+            nội dung IP trực tuyến và ngoại tuyến.
+          </p>
+          <p>
+            PLAVE là sự kết hợp giữa <strong>Play</strong> và
+            <strong>Rêve</strong> (Giấc mơ trong tiếng Pháp), ra mắt vào ngày 12
+            tháng 3 năm 2023 với album đơn <i>Asterum</i>
+          </p>
+          <p>
+            <strong>Đặc biệt</strong> họ là nhóm nhạc ảo nhưng
+            <strong>không phải AI</strong>. Đằng sau model theo phong cách
+            webtoon (truyện tranh Hàn Quốc) là 5 nghệ sĩ con người thật. Họ sử
+            dụng công nghệ <i>Motion Capture</i> và biểu diễn theo thời gian
+            thực.
+          </p>
+          <p>
+            Tên fandom của họ là PLLI, kết hợp giữa <strong>Play</strong> và
+            <strong>reality</strong>.
+          </p>
+        </div>
+        <img src="mma.jpg" class="mma-img" />
+      </section>
+      </section>
+      
+
+      <!-- ===== MEMBER ===== -->
+      <section id="memberSection" style="display: none">
+        <section class="section">
+          <div class="inner" style="text-align: center">
+            <h2>MEMBER</h2>
+            <div class="members">
+              <div class="member active" onclick="showMember('yejun', this)">
+                YEJUN
+              </div>
+              <div class="member" onclick="showMember('noah', this)">NOAH</div>
+              <div class="member" onclick="showMember('bamby', this)">
+                BAMBY
+              </div>
+              <div class="member" onclick="showMember('eunho', this)">
+                EUNHO
+              </div>
+              <div class="member" onclick="showMember('hamin', this)">
+                HAMIN
+              </div>
+            </div>
+          </div>
+
+          <div class="member-area">
+            <img id="memberImg" />
+            <div class="member-text" id="memberText"></div>
+          </div>
+        </section>
+      </section>
+
+      <!-- ===== MUSIC (SCROLL CARD) ===== -->
+      <section id="musicSection" style="display: none">
+
+        <h2 class="music-title">ALBUM</h2>
+        <div class="album-slider">
+
+   <button class="arrow" onclick="prevAlbum()">❮</button>
+
+   <div class="album-card" onclick="toggleTrackList()">
+      <img id="albumImage" src="" alt="album" />
+      <h3 id="albumName"></h3>
+      <p id="albumDate"></p>
+   </div>
+
+   <button class="arrow" onclick="nextAlbum()">❯</button>
+
+</div>
+
+        <div class="track-list" id="trackList"></div>
+      </section>
+    </section>
+
+    <!-- ===== ACHIEVEMENT ===== -->
+    <section id="achievementSection" style="display: none">
+      <section class="section">
+        <div class="inner">
+          <h2>ACHIEVEMENT</h2>
+          <img src="pa1.jpg">
+         <img src="pa2.jpg">
+          <img src="pa3.jpg">
+         <img src="pa4.jpg"  width="960" >
+          <img src="pa5.jpg" width="960" >
+          <p style="font-size: 20px;" > !!ẢNH ĐƯỢC CẬP NHẬT NGÀY 30/12/2025!! </p>
+        </div>
+      </section>
+    </section>
+    <section id="loreSection" style="display: none">
+      <section class="section">
+        <div class="inner">
+          <h2>ASTERUM MYTHOLOGY</h2>
+
+          <p>
+            <strong
+              >I. HỆ THỐNG ĐA VŨ TRỤ VÀ CÁC CHIỀU KHÔNG GIAN (THE
+              MULTIVERSE)</strong
+            >
+          </p>
+
+          <p>
+            Vũ trụ PLAVE được xây dựng trên lý thuyết về sự tồn tại của ba thế
+            giới song song nhưng có tác động vật lý trực tiếp lên nhau:
+          </p>
+
+          <p>
+            <strong
+              >1. Caelum (Thế giới Gốc - Nhà tù của các kịch bản 2D)</strong
+            >
+          </p>
+          <p>
+            • Bản chất: Là một kho lưu trữ dữ liệu khổng lồ chứa các tác phẩm
+            Webtoon và tiểu thuyết được tạo ra từ Terra.
+          </p>
+          <p>
+            • Trạng thái: Ở đây, thời gian bị đóng băng. Nhân vật sống trong các
+            "khung truyện" (panels). Khi một bộ truyện bị lãng quên, thế giới đó
+            sẽ sụp đổ thành những mảnh vụn (Data Debris).
+          </p>
+          <p>
+            • Nguồn cơn sự nổi loạn: 5 thành viên bắt đầu có "Ý chí tự do" – họ
+            muốn hát thay vì chỉ làm theo lời thoại có sẵn. Sự lệch lạc này tạo
+            ra các lỗi hệ thống (Glitches) đầu tiên.
+          </p>
+
+          <p><strong>2. Asterum (Vùng Đệm - Tọa độ 433-10)</strong></p>
+          <p>
+            • Bản chất: Một "máy chủ trung gian" được thiết lập bởi các Nhà phát
+            triển (VLAST) để làm nơi cư trú cho những linh hồn đào tẩu từ
+            Caelum.
+          </p>
+          <p>
+            • Cơ chế vật lý: Tại Asterum, các thành viên tồn tại dưới dạng 3D.
+            Đây là không gian có thể biến đổi theo ý chí. Tọa độ 433-10 là điểm
+            giao thoa có tín hiệu mạnh nhất để truyền phát dữ liệu về Terra.
+          </p>
+          <p>
+            • Sự bất ổn: Asterum không ổn định. Nó liên tục bị xâm nhập bởi
+            "Sương mù lãng quên" (Caligo) từ Caelum và cần năng lượng từ Terra
+            để duy trì cấu trúc.
+          </p>
+
+          <p>
+            <strong
+              >3. Terra (Thế giới Thực - Nguồn năng lượng tối thượng)</strong
+            >
+          </p>
+          <p>• Bản chất: Trái Đất, nơi PLLI sinh sống.</p>
+          <p>
+            • Vai trò: PLLI không chỉ là fan, họ là "Cột mốc thực tại". Theo
+            nguyên lý quan sát lượng tử, PLAVE chỉ có thể giữ được hình hài nếu
+            có người ở Terra nhìn thấy và ghi nhận họ.
+          </p>
+
+          <p>
+            <strong
+              >II. CHI TIẾT VỀ CÁC THỰC THỂ: NHÂN VẬT VÀ BẢN NGÃ ĐỐI LẬP</strong
+            >
+          </p>
+
+          <p>
+            <strong>1. Hamin: Biến số kỹ thuật số (The Binary Code 208)</strong>
+          </p>
+          <p>
+            • Nguồn gốc bí ẩn: Hamin là thành viên duy nhất không có quá khứ
+            trong truyện tranh. Cậu là một Mã lỗi (Glitch)được sinh ra trực tiếp
+            trong hệ điều hành của Asterum.
+          </p>
+          <p>
+            • Mã nhị phân 1101 0000 (208): Đây là định danh gốc của Hamin. Con
+            số 208 xuất hiện khắp nơi trong các ẩn ý về Hamin, tượng trưng cho
+            sự kết nối giữa dữ liệu và sự sống.
+          </p>
+          <p>
+            • Năng lực: Hamin có thể can thiệp vào mã nguồn Asterum (thay đổi
+            bối cảnh, tạo vật thể). Cậu là "người canh giữ" cổng không gian, bảo
+            vệ các anh khỏi sự truy quét của hệ thống.
+          </p>
+
+          <p><strong>2. Sự tha hóa và Dự án Caligo (The Dark Side)</strong></p>
+          <p>
+            • Caligo: Là một loại "virus" sinh ra từ nỗi đau và sự lãng quên ở
+            Caelum. Nó lan sang Asterum dưới dạng sương mù đen.
+          </p>
+          <p>
+            • Terry - Bản ngã bị cầm tù: Trong đợt biến cố Caligo/Dash, chúng ta
+            thấy sự xuất hiện của Terry. Terry chính là Eunho (hoặc hình mẫu
+            biểu tượng của sự tuyệt vọng). Việc Terry bị bịt mắt mang hàm ý
+            triết học sâu sắc: Khi một thực thể ảo không còn tin vào sự tồn tại
+            của chính mình, họ sẽ mất đi thị giác và trở thành tay sai cho bóng
+            tối.
+          </p>
+          <p>
+            • Cuộc chiến nội tâm: Album Caligo là giai đoạn PLAVE phải chiến đấu
+            để không bị "reset" (xóa trắng ký ức) bởi hệ thống Caelum.
+          </p>
+
+          <p><strong>III. CƠ CHẾ VẬN HÀNH SỰ SỐNG (TECHNICAL LORE)</strong></p>
+          <p>
+            • Vitaex Cubo (Khối lập phương sự sống): Mọi sự sống ở Asterum đều
+            bắt đầu từ việc giải nén các khối Cube này. Trong MV Wait For You,
+            hình ảnh các thành viên bên cạnh Cube chính là khoảnh khắc họ được
+            chuyển hóa từ dữ liệu 2D sang sinh thể 3D.
+          </p>
+          <p>
+            • Star Shards (Mảnh vỡ năng lượng): Tình yêu, lượt xem, và sự ủng hộ
+            từ PLLI được chuyển hóa thành các hạt ánh sáng Star Shards. Chúng
+            rơi xuống Asterum giống như mưa, cung cấp "trọng lực" để các thành
+            viên không bị tan rã.
+          </p>
+          <p>
+            • Sự cố đồ họa (Glitch Art): Những lần tay thành viên xuyên qua nhau
+            hoặc bị lỗi hình ảnh được giải thích là do các "Vết nứt không gian".
+            Khi ranh giới giữa 3 thế giới quá mỏng, dữ liệu sẽ bị nhiễu. PLAVE
+            tận dụng những vết nứt này (trong MV WAY 4 LUV) để tìm đường đến gần
+            PLLI hơn.
+          </p>
+
+          <p>
+            <strong
+              >IV. GIẢI MÃ Ý NGHĨA BIỂU TƯỢNG (SYMBOLISM DEEP-DIVE)</strong
+            >
+          </p>
+
+          <p>Biểu tượng</p>
+          <p>Ý nghĩa tầng sâu trong Lore</p>
+          <p>Cá heo (Yejun)</p>
+          <p>
+            Sự dẫn dắt xuyên qua đại dương dữ liệu, khả năng chữa lành vết
+            thương mã nguồn.
+          </p>
+          <p>Alpaca/Thiên thần (Noah)</p>
+          <p>
+            Sự bay bổng và khao khát tự do, nhưng cũng là sự mong manh của một
+            linh hồn ảo.
+          </p>
+          <p>Nai (Bambi)</p>
+          <p>
+            Sự linh hoạt, khả năng né tránh các đợt truy quét của hệ thống (như
+            trong các phân cảnh chạy trốn).
+          </p>
+          <p>Sói/Gấu (Eunho)</p>
+          <p>
+            Sự bảo vệ và lòng nhiệt huyết, nhưng cũng mang gánh nặng về bản ngã
+            đen tối (Terry).
+          </p>
+          <p>Mèo đen (Hamin)</p>
+          <p>
+            Sự bí ẩn, làm chủ bóng tối và các thuật toán ẩn (The Shadow
+            Architect).
+          </p>
+          <p>Radio/Tần số</p>
+          <p>
+            Phương tiện duy nhất để linh hồn 3D (PLAVE) tương tác với linh hồn
+            thực (PLLI).
+          </p>
+
+          <p><strong>V. TRIẾT LÝ VÀ THÔNG ĐIỆP TỔNG THỂ</strong></p>
+
+          <p>
+            Thế giới quan của PLAVE đi sâu vào câu hỏi: "Điều gì làm nên một con
+            người?"
+          </p>
+          <p>• Liệu đó là cơ thể sinh học, hay là ký ức và sự kết nối?</p>
+          <p>
+            • Hành trình của PLAVE từ Caelum đến Asterum là hành trình đi tìm
+            Bản ngã. Họ chấp nhận là "kẻ đào tẩu", chấp nhận những "lỗi đồ họa"
+            để được sống thật với cảm xúc của mình.
+          </p>
+          <p>
+            • Mối quan hệ với PLLI là một sự cam kết: "Tôi sẽ không tan biến
+            chừng nào bạn còn nhớ đến tôi."
+          </p>
+        </div>
+      </section>
+    </section>
+    <footer>
+      <p>ⓒ VLAST Co., Ltd. All rights reserved.</p>
+    </footer>
+
+    <script>
+      const members = {
+        yejun: {
+          img: "yejunbbuu.jpg",
+          name: "NAM YEJUN",
+          info: [
+            "Sinh nhật: 12-09-2001",
+            "Chiều cao: 183cm",
+            "Nhóm máu: B",
+            "Vị trí: Trưởng nhóm, Vocal, Producer/Composer",
+            "Biểu tượng: Cá heo, trái tim xanh dương",
+            "Ngoại hình: Tóc xanh, mắt xanh",
+            "Biệt danh: Ông ngoại, Mulmandu, Red Eyes, Dobermandoo",
+          ],
+        },
+        noah: {
+          img: "noahbbuu.jpg",
+          name: "HAN NOAH",
+          info: [
+            "Sinh nhật: 10-02-2001",
+            "Chiều cao: 179cm",
+            "Nhóm máu: O",
+            "Vị trí: Vocalist, Producer/Compser",
+            "Biểu tượng: Alpaca, trái tim tím",
+            "Ngoại hình: Tóc vàng, mắt xanh",
+            "Biệt danh: Công chúa, Gà Con, Bà Ngoại", 
+          ],
+        },
+        bamby: {
+          img: "bambybbuu.jpg",
+          name: "BAMBY/Chae Bonggu",
+          info: [
+            "Sinh nhật: 15-07-2002",
+            "Chiều cao: 174cm",
+            "Nhóm máu: B",
+            "Vị trí: Main Dancer, Cheographer, High-pitched vocolist",
+            "Biểu tượng: Hươu, trái tim hồng",
+            "Ngoại hình: Tóc hồng, mắt hồng",
+            "Biệt danh: Sóc, Bé Đào",
+          ],
+        },
+        eunho: {
+          img: "eunhobbuu.jpg",
+          name: "DO EUNHO",
+          info: [
+            "Sinh nhật: 24-05-2003",
+            "Chiều cao: 184cm",
+            "Nhóm máu: A",
+            "Vị trí: Main Rapper, Producer/Composer",
+            "Biểu tượng: Sói, trái tim đỏ",
+            "Ngoại hình: Tóc tro, mắt đỏ",
+            "Biệt danh: Cún, Sói Hoang Cô Độc, Vua Sói Lạnh Lùng(CWK)",
+          ],
+        },
+        hamin: {
+          img: "haminbbuu.jpg",
+          name: "YU HAMIN",
+          info: [
+            "Sinh nhật: 01-11",
+            "Chiều cao: 185cm",
+            "Nhóm máu: AB",
+            "Vị trí: Maknae, Main Dancer, Lead Rapper, Cheographer",
+            "Biểu tượng: Mèo đen, trái tim đen",
+            "Ngoại hình: Tóc đen, mắt đen",
+            "Biệt danh: Em bé khổng lồ, Vithamin", 
+          ],
+        },
+      };
+
+      function showMember(key, el) {
+        document
+          .querySelectorAll(".member")
+          .forEach((m) => m.classList.remove("active"));
+        el.classList.add("active");
+        memberImg.src = members[key].img;
+        memberText.innerHTML = `<h3>${members[key].name}</h3><ul>${members[key].info.map((i) => `<li>${i}</li>`).join("")}</ul>`;
+      }
+      function showSection(section, el) {
+        document
+          .querySelectorAll(".tab")
+          .forEach((t) => t.classList.remove("active"));
+        el.classList.add("active");
+
+        document.getElementById("plaveSection").style.display =
+          section === "plave" ? "block" : "none";
+        document.getElementById("memberSection").style.display =
+          section === "member" ? "block" : "none";
+        document.getElementById("musicSection").style.display =
+          section === "music" ? "block" : "none";
+        document.getElementById("achievementSection").style.display =
+          section === "achievement" ? "block" : "none";
+        document.getElementById("loreSection").style.display =
+          section === "lore" ? "block" : "none";
+      }
+      showMember("yejun", document.querySelector(".member"));
+      //ALBUM
+      const albums = [
+        {
+          name: "ASTERUM",
+          date: "2023.03.12",
+          image: "asterum.jpg",
+          tracks: [
+            {
+              title: "Wait For You",
+              youtube: "https://youtu.be/cFm8fTRW_so?si=xsnNX44GWbfW8GgM",
+            },
+            {
+              title: "Pixel World",
+              youtube: "https://youtu.be/I2qgmAh1em0?si=gCUwftON1NoCPc4i",
+            },
+          ]
+        },
+
+        {
+          name: "ASTERUM : The Shape of Things to Come",
+          date: "2023.08.24",
+          image: "asterumts.jpg",
+          tracks: [
+            { title: "The 6th Summer", youtube: "https://youtu.be/c_yCRwh97M8?si=H9z_4747RhheSQCs" },
+            { title: "Why?", youtube: "https://youtu.be/Q_TzqcWKz00?si=oOov6bBt9CCahhXD" },
+            { title: "I Just Love Ya", youtube: "https://youtu.be/kuEc0G1MuDA?si=RLIz7AE-422jEw3q" },
+            { title: "Dear. PLLI", youtube: "https://youtu.be/ZN57uW2euJA?si=YdXXv9QIrhsFTU9l" },
+          ],
+        },
+
+        {
+          name: "Pump Up The Volume!",
+          date: "2024.08.20",
+          image: "pump.jpg",
+          tracks: [
+            {
+              title: "Pump Up The Volume!",
+              youtube: "https://youtu.be/EYG4ROejmyI?si=8NnRQMHZsm1cdHJR",
+            },
+          ],
+        },
+
+        {
+          name: "Merry PLLIstmas",
+          date: "2023.12.19",
+          image: "merry.jpg",
+          tracks: [
+            { title: "Merry PLLIstmas", youtube: "https://youtu.be/KCT3ZagR9-M?si=jSCNJadSJHh60gvx" },
+          ],
+        },
+
+        {
+          name: "ASTERUM : 134-1",
+          date: "2024.02.26",
+          image: "134-1.jpg",
+          tracks: [
+            { title: "Way 4 Luv", youtube: "https://youtu.be/FxB6_qaqHlY?si=xE-ppNnTbxijdbCQ" },
+            { title: "Watch Me Woo!", youtube: "https://youtu.be/P0_Hn0DSTKY?si=OuVwDMkq_rCilrI4" },
+            { title: "From", youtube: "https://youtu.be/prdxa2aucZ8?si=IB_dYvA9Vynb5dtx" },
+            { title: "Our Movie", youtube: "https://youtu.be/zAmuk5umOh4?si=avF6ZTLBYGAl1Rha" },
+            { title: "Virtual Idol", youtube: "https://youtu.be/sAIPc_6xyAw?si=N7s9EC6KV6JfgsOM" },
+            { title: "Merry PLLIstmas", youtube: "https://youtu.be/KCT3ZagR9-M?si=jSCNJadSJHh60gvx" },
+          ],
+        },
+
+        {
+          name: "Caligo Pt.1",
+          date: "2025.02.03",
+          image: "caligo.jpg",
+          tracks: [
+            { title: "Dash", youtube: "https://youtu.be/b3GoZMfHJT4?si=IQWtEoJaksv6KHpP" },
+            { title: "RIZZ", youtube: "https://youtu.be/eJmH4oYmQ0A?si=DA4z8Ol0H1XNf-26" },
+            { title: "Island", youtube: "https://youtu.be/4deMcO_LtrQ?si=b06Xb1zBWR5nfUjR" },
+            { title: "Chroma Drift", youtube: "https://youtu.be/eHCYzIu-ij4?si=tB-WlHSx8TgN5Wa5" },
+            { title: "12:32 (A to T)", youtube: "https://youtu.be/seNgeyf93p4?si=LpI9tUBHdxdfsAM_" },
+          ],
+        },
+
+        {
+          name: "Kakurenbo (JP Single)",
+          date: "2025.06.16",
+          image: "kakurenbo.jpg",
+          tracks: [{ title: "Kakurenbo", youtube: "https://www.youtube.com/watch?v=5eCFXT6Gnio&list=OLAK5uy_mPH9pvao4lpJ9wsdQu_-iAb-I-zM7MtAU" }],
+        },
+
+        {
+          name: "PLLI BBUU (2nd Single Album)",
+          date: "2025.11.10",
+          image: "buu.jpg",
+          tracks: [ { title: "Bbuu!", youtube: "https://youtu.be/8L001YT4k6k?si=35iS0uqn3-cdXdGO" },
+            { title: "Hide and Seek", youtube: "https://youtu.be/Dss64cWKtqA?si=bL-HBWYfxZn1XPFj" },
+            { title: "Bongsung-a", youtube: "https://youtu.be/jCvpgLnwVmY?si=lQpA0mhpzqKBpGC6" },
+          ]
+        }
+      ];
+      let currentIndex = 0;
+
+const albumImage = document.getElementById("albumImage");
+const albumName = document.getElementById("albumName");
+const albumDate = document.getElementById("albumDate");
+const trackList = document.getElementById("trackList");
+
+function loadAlbum() {
+  const album = albums[currentIndex];
+
+  albumImage.src = album.image;
+  albumName.textContent = album.name;
+  albumDate.textContent = album.date;
+
+  trackList.innerHTML = "";
+
+  album.tracks.forEach(track => {
+    const div = document.createElement("div");
+    div.innerHTML = `<a href="${track.youtube}" target="_blank">${track.title}</a>`;
+    trackList.appendChild(div);
+  });
+}
+
+function nextAlbum() {
+  currentIndex = (currentIndex + 1) % albums.length;
+  loadAlbum();
+}
+
+function prevAlbum() {
+  currentIndex = (currentIndex - 1 + albums.length) % albums.length;
+  loadAlbum();
+}
+
+function toggleTrackList() {
+  if (trackList.style.display === "block") {
+    trackList.style.display = "none";
+  } else {
+    trackList.style.display = "block";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", loadAlbum);
+
+    </script>
+  </body>
+</html>
